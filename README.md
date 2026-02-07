@@ -2,8 +2,8 @@
 
 ## Ataque de Denegación de Servicio (DoS) contra Infraestructura Cisco
 
-**Autor:** Branyel Estifenso Pérez Díaz  
-**Materia:** Seguridad de Redes - Proyecto Final
+**Autor:** [Branyel Perez](https://www.linkedin.com/in/branyel/)  
+**Materia:** Seguridad de Redes con el Prof. Jonathan Rondon
 
 ---
 
@@ -18,22 +18,15 @@ El script envía paquetes CDP con identificadores dinámicos (`HackByEstifenso-X
 - Denegación de servicio en la tabla de vecinos CDP
 - Posible inestabilidad del dispositivo
 
+### Evidencia del Ataque
+
+![Ataque DoS CDP Flood](Ataque_DoS.png)
+
 ---
 
 ## 🌐 Topología del Laboratorio
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        EVE-NG                               │
-│                                                             │
-│   ┌─────────────┐                    ┌─────────────┐       │
-│   │  Kali Linux │                    │ Cisco Switch │       │
-│   │  (Atacante) │◄──────eth0────────►│   (QEMU)     │       │
-│   │             │                    │              │       │
-│   └─────────────┘                    └─────────────┘       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+![Topología EVE-NG](topologia-EVE-NG.png)
 
 **Componentes:**
 - **Atacante:** Kali Linux (interfaz `eth0`)
