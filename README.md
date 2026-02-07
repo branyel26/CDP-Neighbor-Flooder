@@ -18,10 +18,6 @@ El script envía paquetes CDP con identificadores dinámicos (`HackByEstifenso-X
 - Denegación de servicio en la tabla de vecinos CDP
 - Posible inestabilidad del dispositivo
 
-### Evidencia del Ataque
-
-![Ataque DoS CDP Flood](Ataque_DoS.png)
-
 ---
 
 ## 🌐 Topología del Laboratorio
@@ -32,6 +28,14 @@ El script envía paquetes CDP con identificadores dinámicos (`HackByEstifenso-X
 - **Atacante:** Kali Linux (interfaz `eth0`)
 - **Víctima:** Switch Cisco virtualizado en EVE-NG (QEMU)
 - **Protocolo:** CDP (Cisco Discovery Protocol)
+
+---
+
+## 📸 Evidencias del Ataque
+
+![Ejecución del ataque](Ataque_DoS.png)
+
+![Resultado en el switch](evidencia2.png)
 
 ---
 
