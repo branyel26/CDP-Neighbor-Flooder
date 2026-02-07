@@ -13,7 +13,7 @@ Este script implementa un ataque de **saturación de la tabla de vecinos CDP (Ci
 
 ### Objetivo del Ataque
 
-El script envía paquetes CDP con identificadores dinámicos (`HackByEstifenso-XX`) para saturar la memoria del switch víctima, provocando:
+El script envía paquetes CDP con identificadores dinámicos (`SW-XX`) para saturar la memoria del switch víctima, provocando:
 - Agotamiento de recursos de memoria
 - Denegación de servicio en la tabla de vecinos CDP
 - Posible inestabilidad del dispositivo
@@ -44,7 +44,7 @@ El script envía paquetes CDP con identificadores dinámicos (`HackByEstifenso-X
 | Parámetro | Valor | Descripción |
 |-----------|-------|-------------|
 | **Dirección MAC Multicast** | `01:00:0c:cc:cc:cc` | Dirección de destino utilizada por CDP |
-| **Identificador de dispositivo** | `HackByEstifenso-XX` | Nombre dinámico generado para cada paquete falso |
+| **Identificador de dispositivo** | `SW-XX` | Nombre dinámico generado para cada paquete falso |
 | **Interfaz de red** | `eth0` | Interfaz de ataque en Kali Linux |
 | **Tipo de paquete** | CDP v2 | Versión del protocolo |
 
@@ -100,9 +100,10 @@ Switch# show cdp neighbors
 **Resultado esperado:** Se observará un incremento significativo de entradas falsas con nombres como:
 ```
 Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
-HackByEstifenso-01  Eth 0/0         180        R S        Linux     eth0
-HackByEstifenso-02  Eth 0/0         180        R S        Linux     eth0
-HackByEstifenso-03  Eth 0/0         180        R S        Linux     eth0
+SW-01            Eth 0/0         180        R S        Linux     eth0
+SW-02            Eth 0/0         180        R S        Linux     eth0
+SW-03            Eth 0/0         180        R S        Linux     eth0
+SW-04            Eth 0/0         180        R S        Linux     eth0
 ...
 ```
 
