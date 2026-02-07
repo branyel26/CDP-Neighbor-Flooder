@@ -1,0 +1,8 @@
+# CDP Neighbor Flooder - Dependencias
+# ====================================
+# Autor: Branyel Estifenso Pérez Díaz
+# Proyecto: Seguridad de Redes
+
+# Scapy - Biblioteca de manipulación de paquetes de red
+# Permite crear, enviar y capturar paquetes a bajo nivel
+scapy>=2.5.0
