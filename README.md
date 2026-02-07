@@ -152,11 +152,5 @@ El uso de esta herramienta contra redes sin autorización explícita es **ilegal
 
 ---
 
-## 📄 Licencia
-
-Este proyecto está bajo la licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
-
----
-
-**Universidad:** [Nombre de la Universidad]  
-**Fecha:** 2026
+**Instituto Tecnológico de las Américas (ITLA)**  
+**Fecha:** 06/02/2026
